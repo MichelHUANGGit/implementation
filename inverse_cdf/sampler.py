@@ -165,7 +165,7 @@ if __name__ == "__main__":
         # Choosing a pdf
 
         # Beta distribution:
-        # pdf = partial(Beta, alpha=5.0, beta=1.0)
+        # pdf = partial(Beta, alpha=2.0, beta=3.0)
         # a, b = 1e-16, 1.0 - 1e-16
 
         # Gaussian distribution
@@ -176,9 +176,6 @@ if __name__ == "__main__":
         weights = np.array([0.2, 0.8])
         params = [(-4.0, 1.0), (2.0, 2.0)]
         pdf = partial(GaussMixture, weights=weights, params=params)
-        # Alternatively:
-        # kwargs = {"weights":weights, "params":params}
-        # pdf = GaussMixture
         a, b = -10.0, 10.0 # edges of the support set of the pdf
 
         # Generate samples from pdf
@@ -194,24 +191,27 @@ if __name__ == "__main__":
         y /= np.trapz(y, x) #Noramlize just in case
         plt.plot(x, y, label="True density")
         plt.legend()
+        plt.title(r"Gaussian Mixture sampling")
+        plt.savefig("images/GaussianMix.png", dpi=400)
         plt.show()
 
     elif _2D:
         '''2D example'''
         mu = np.array(
             [+3.0, 
-             -4.0]
+             -2.0]
         )
         sigma = np.array(
-            [[5.0, -3.0], 
-             [-3.0, 3.0]]
+            [[4.0, +2.0], 
+             [+2.0, 5.0]]
         )
         N = 1000 # number of samples to be generated, keep it low
         n_bins = 1000 # higher -> higher precision, but slower in computation
         pdf = Gauss2D # our pdf
         kwargs = dict(mu=mu, sigma=sigma) # pdf kwargs
         #support edges
-        a,b,c,d = (mu[0]-3*sigma[0,0], mu[0]+3*sigma[0,0], mu[1]-3*sigma[1,1], mu[1]+3*sigma[1,1])
+        mult = 3
+        a,b,c,d = (mu[0]-mult*sigma[0,0], mu[0]+mult*sigma[0,0], mu[1]-mult*sigma[1,1], mu[1]+mult*sigma[1,1])
         samples = inverseSampling2D(pdf, edges=(a,b,c,d), N=N, n_bins=n_bins, **kwargs)
 
         x = np.linspace(a,b,n_bins)
@@ -223,9 +223,10 @@ if __name__ == "__main__":
         plt.figure(figsize=(8, 6))
         plt.contourf(X, Y, Z, levels=50, cmap='Greens')
         plt.colorbar(label='pdf value')
-        plt.scatter(samples[:,0], samples[:,1], label="generated", marker="+", linewidths=0.5)
+        plt.scatter(samples[:,0], samples[:,1], color="black", label="samples", marker="+", linewidths=0.5, alpha=0.5)
         plt.xlabel('x')
         plt.ylabel('y')
-        plt.title('2D Gaussian pdf')
+        plt.title('2D Gaussian sampling')
         plt.legend()
+        plt.savefig("images/2D_Gaussian_1.png", dpi=400)
         plt.show()
