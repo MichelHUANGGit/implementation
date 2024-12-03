@@ -11,6 +11,14 @@ from tqdm import tqdm
 from code import interact
 import argparse
 
+def save_checkpoint(model, optimizer, step, file_path):
+    checkpoint = {
+        'model_state_dict': model.state_dict(),
+        'optimizer_state_dict': optimizer.state_dict(),
+        'step': step,
+    }
+    pt.save(checkpoint, file_path)
+    print(f"Checkpoint saved at step {step}.")
 
 def main(args):
 
@@ -50,6 +58,7 @@ def main(args):
     H,W = 32,32
 
     vector_field = UNet(channels,  heads).to(device)
+    print(f"Number of parameters {sum(p.numel() for p in vector_field.parameters()):,}")
     optimizer = pt.optim.Adam(vector_field.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.0, eps=1e-8)
     if args.compile:
         vector_field = pt.compile(vector_field)
@@ -83,8 +92,7 @@ def main(args):
 
         progress_bar.set_description_str(f"Epoch {step/steps_per_epochs:2f} | Step {step} | Loss: {loss.item():8f}")
 
-    pt.save(vector_field.state_dict(), args.saved_model_path)
-
+    save_checkpoint(vector_field, optimizer, step, args.saved_model_path)
 
 if __name__ == "__main__":
     
