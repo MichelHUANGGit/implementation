@@ -51,6 +51,8 @@ def main(args):
 
     vector_field = UNet(channels,  heads).to(device)
     optimizer = pt.optim.Adam(vector_field.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.0, eps=1e-8)
+    if args.compile:
+        vector_field = pt.compile(vector_field)
 
     def Phi_cond_x1(t:Tensor, x0:Tensor, x1:Tensor) -> Tensor:
         '''t: (B,1), x0: (B,C,H,W), x1: (B,C,H,W)'''
@@ -61,6 +63,7 @@ def main(args):
 
     # Training
 
+    pt.set_float32_matmul_precision("medium")
     progress_bar = tqdm(range(1, steps+1))
     for step in progress_bar:
         
@@ -78,7 +81,7 @@ def main(args):
         optimizer.step()
         optimizer.zero_grad()
 
-        progress_bar.set_description_str(f"Epoch {step/steps_per_epochs} | Step {step} | Loss: {loss.item():8f}")
+        progress_bar.set_description_str(f"Epoch {step/steps_per_epochs:2f} | Step {step} | Loss: {loss.item():8f}")
 
     pt.save(vector_field.state_dict(), args.saved_model_path)
 
@@ -91,6 +94,7 @@ if __name__ == "__main__":
     parser.add_argument("--batch_size", type=int, default=256)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--saved_model_path", type=str, default="models/vf_cifar10.pt")
+    parser.add_argument("--compile", action="store_true", default=False)
     parser.add_argument("--channels", type=int, default=256)
     parser.add_argument("--heads", type=int, default=4)
     parser.add_argument("--sigma_min", type=float, default=0.001)
