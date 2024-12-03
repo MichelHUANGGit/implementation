@@ -9,8 +9,10 @@ from Unet import UNet
 
 from tqdm import tqdm
 from code import interact
+import argparse
 
-def main():
+
+def main(args):
 
     transforms = v2.Compose([
         v2.ToImage(),
@@ -19,15 +21,15 @@ def main():
     ])
 
     trainset = CIFAR10(
-        root=r"C:\Users\huang\Desktop\implementation\DDPM\cifar10", 
-        download=False, 
+        root=args.dataset_dir, 
+        download=True, 
         train=True, 
         transform=transforms
     )
 
     valset = CIFAR10(
-        root=r"C:\Users\huang\Desktop\implementation\DDPM\cifar10", 
-        download=False, 
+        root=args.dataset_dir, 
+        download=True, 
         train=False, 
         transform=transforms
     )
@@ -38,7 +40,7 @@ def main():
     channels = 128 # initial channel expansion
     heads = 4 # attention heads
     sigma_min = 0.001
-    epochs = 1
+    epochs = args.epochs
     batch_size = 256
     lr = 5e-4
     device = pt.device("cuda")
@@ -84,5 +86,9 @@ def main():
 
 
 if __name__ == "__main__":
-
-    main()
+    
+    parser = argparse.ArgumentParser()
+    parser.add_argument("--dataset_dir", type=str, default="./cifar10")
+    parser.add_argument("--epochs", type=int, default=10)
+    args = parser.parse_args()
+    main(args)
