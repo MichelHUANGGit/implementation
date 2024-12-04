@@ -20,9 +20,17 @@ def save_checkpoint(model, optimizer, step, file_path):
     pt.save(checkpoint, file_path)
     print(f"Checkpoint saved at step {step}.")
 
+
 def load_checkpoint(model:nn.Module, optimizer:pt.optim.Adam, file_path):
     checkpoint = pt.load(file_path)
-    model.load_state_dict(checkpoint['model_state_dict'])
+    new_state_dict = {}
+    for key, value in checkpoint['model_state_dict'].items():
+        if key.startswith('_orig_mod.'):
+            new_key = key[len('_orig_mod.'):]  # Remove the '_orig_mod.' prefix
+            new_state_dict[new_key] = value
+        else:
+            new_state_dict[key] = value
+    model.load_state_dict(new_state_dict)
     optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
     return checkpoint['step']
 
