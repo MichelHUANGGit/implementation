@@ -20,6 +20,13 @@ def save_checkpoint(model, optimizer, step, file_path):
     pt.save(checkpoint, file_path)
     print(f"Checkpoint saved at step {step}.")
 
+def load_checkpoint(model:nn.Module, optimizer:pt.optim.Adam, file_path):
+    checkpoint = pt.load(file_path)
+    model.load_state_dict(checkpoint['model_state_dict'])
+    optimizer.load_state_dict(checkpoint['optimizer_state_dict'])
+    return checkpoint['step']
+
+
 def main(args):
 
     transforms = v2.Compose([
@@ -51,15 +58,17 @@ def main(args):
     sigma_min = args.sigma_min
     epochs = args.epochs
     batch_size = args.batch_size
-    steps_per_epochs = len(dataset) / batch_size
-    steps = round(epochs * steps_per_epochs)
     lr = args.lr
+    num_workers = args.num_workers
     device = pt.device("cuda")
     H,W = 32,32
-
-    vector_field = UNet(channels,  heads).to(device)
+    
+    dataloader = DataLoader(dataset, batch_size, shuffle=True, num_workers=num_workers, pin_memory=True)
+    vector_field = UNet(channels, heads).to(device)
     print(f"Number of parameters {sum(p.numel() for p in vector_field.parameters()):,}")
     optimizer = pt.optim.Adam(vector_field.parameters(), lr=lr, betas=(0.9, 0.999), weight_decay=0.0, eps=1e-8)
+    if args.from_pretrained:
+        _ = load_checkpoint(vector_field, optimizer, args.saved_model_path)
     if args.compile:
         vector_field = pt.compile(vector_field)
 
@@ -73,24 +82,27 @@ def main(args):
     # Training
 
     pt.set_float32_matmul_precision("medium")
-    progress_bar = tqdm(range(1, steps+1))
-    for step in progress_bar:
+    progress_bar = tqdm(range(1, epochs+1))
+    step = 0
+    for epoch in progress_bar:
         
-        x1_indices = pt.randint(0, len(dataset), size=(batch_size,))
-        x1 = dataset[x1_indices].to(device)
-        t = pt.rand(size=(batch_size, 1), device=device)
-        x0 = pt.randn(size=(batch_size, 3, H, W), device=device)
-        x_t_cond_x1 = Phi_cond_x1(t[..., None, None], x0, x1)
-        predicted_vector_field = vector_field(x_t_cond_x1, t)
-        target_vector_field = true_vf_cond_x1(x0, x1)
-        loss = ((predicted_vector_field - target_vector_field)**2)\
-                    .sum(dim=(1,2,3))\
-                    .mean(0)
-        loss.backward()
-        optimizer.step()
-        optimizer.zero_grad()
+        for i, x1 in enumerate(dataloader, start=1):
+            batch_size = x1.size(0)
+            x1 = x1.to(device)
+            t = pt.rand(size=(batch_size, 1), device=device)
+            x0 = pt.randn(size=(batch_size, 3, H, W), device=device)
+            x_t_cond_x1 = Phi_cond_x1(t[..., None, None], x0, x1)
+            predicted_vector_field = vector_field(x_t_cond_x1, t)
+            target_vector_field = true_vf_cond_x1(x0, x1)
+            loss = ((predicted_vector_field - target_vector_field)**2)\
+                        .sum(dim=(1,2,3))\
+                        .mean(0)
+            loss.backward()
+            optimizer.step()
+            optimizer.zero_grad()
 
-        progress_bar.set_description_str(f"Epoch {step/steps_per_epochs:2f} | Step {step} | Loss: {loss.item():8f}")
+            progress_bar.set_description_str(f"Epoch {epoch} | Step {step+i} | Loss: {loss.item():8f}")
+        step += i
 
     save_checkpoint(vector_field, optimizer, step, args.saved_model_path)
 
@@ -100,8 +112,10 @@ if __name__ == "__main__":
     parser.add_argument("--dataset_dir", type=str, default="./cifar10")
     parser.add_argument("--epochs", type=int, default=10)
     parser.add_argument("--batch_size", type=int, default=256)
+    parser.add_argument("--num_workers", type=int, default=1)
     parser.add_argument("--lr", type=float, default=1e-3)
     parser.add_argument("--saved_model_path", type=str, default="models/vf_cifar10.pt")
+    parser.add_argument("--from_pretrained", action="store_true", default=False)
     parser.add_argument("--compile", action="store_true", default=False)
     parser.add_argument("--channels", type=int, default=256)
     parser.add_argument("--heads", type=int, default=4)
