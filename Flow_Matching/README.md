@@ -11,7 +11,7 @@ Some more samples:
 
 ![cifar10_samples](misc/cifar10_samples.png)
 
-The generated images are still inconsistent: For example some of the dog have a weird shape, and their eyes are weird aren't symmetric. This partially explains the high FID score, the model could benefit from training a little bit more.
+The generated images are still inconsistent: For example some of the dog have a weird shape, and their eyes aren't symmetric. This partially explains the high FID score, the model could benefit from training a little bit more.
 
 
 Results on the Checkerboard dataset:
