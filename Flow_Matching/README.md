@@ -7,8 +7,11 @@ Results on CIFAR10 (60M parameters trained on 400 epochs, FID score: ~107):
 ![cifar10_paths](misc/Fig6_sample_paths_cifar10.png)
 
 
-Some unconditional samples:
+Results on the 2D Checkerboard dataset:
+![checkerboard_samples](misc/Fig4_sample_paths_checkerboard.png)
 
+
+Some unconditional samples:
 ![cifar10_samples](misc/uncond_samples.png)
 
 
@@ -28,6 +31,7 @@ Some class-conditioned samples
   <img src="misc/conditional_samples/dog/00009.png" style="margin-right: 10px;">
 </div>
 
+<br>
 
 **Cat**
 <div style="display: flex;">
@@ -43,6 +47,8 @@ Some class-conditioned samples
   <img src="misc/conditional_samples/cat/00009.png" style="margin-right: 10px;">
 </div>
 
+<br>
+
 **Horse** 
 <div style="display: flex;">
   <img src="misc/conditional_samples/horse/00000.png" style="margin-right: 10px;">
@@ -56,6 +62,8 @@ Some class-conditioned samples
   <img src="misc/conditional_samples/horse/00008.png" style="margin-right: 10px;">
   <img src="misc/conditional_samples/horse/00009.png" style="margin-right: 10px;">
 </div>
+
+<br>
 
 **Deer**
 <div style="display: flex;">
@@ -71,6 +79,8 @@ Some class-conditioned samples
   <img src="misc/conditional_samples/deer/00009.png" style="margin-right: 10px;">
 </div>
 
+<br>
+
 **Automobile**
 <div style="display: flex;">
   <img src="misc/conditional_samples/automobile/00000.png" style="margin-right: 10px;">
@@ -85,5 +95,18 @@ Some class-conditioned samples
   <img src="misc/conditional_samples/automobile/00009.png" style="margin-right: 10px;">
 </div>
 
-Results on the 2D Checkerboard dataset:
-![checkerboard_samples](misc/Fig4_sample_paths_checkerboard.png)
+<br>
+
+**Ship**
+<div style="display: flex;">
+  <img src="misc/conditional_samples/ship/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00008.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/ship/00009.png" style="margin-right: 10px;">
+</div>
