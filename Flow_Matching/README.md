@@ -7,12 +7,83 @@ Results on CIFAR10 (60M parameters trained on 400 epochs, FID score: ~107):
 ![cifar10_paths](misc/Fig6_sample_paths_cifar10.png)
 
 
-Some more samples (unconditional):
+Some unconditional samples:
 
 ![cifar10_samples](misc/uncond_samples.png)
 
-The generated images are still inconsistent: For example some of the dog have a weird shape, and their eyes aren't symmetric. This partially explains the high FID score, the model could benefit from training a little bit more.
+
+Some class-conditioned samples
+
+**Dog**
+<div style="display: flex;">
+  <img src="misc/conditional_samples/dog/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00008.png"  style="margin-right: 10px;">
+  <img src="misc/conditional_samples/dog/00009.png" style="margin-right: 10px;">
+</div>
 
 
-Results on the Checkerboard dataset:
+**Cat**
+<div style="display: flex;">
+  <img src="misc/conditional_samples/cat/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00008.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/cat/00009.png" style="margin-right: 10px;">
+</div>
+
+**Horse** 
+<div style="display: flex;">
+  <img src="misc/conditional_samples/horse/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00008.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/horse/00009.png" style="margin-right: 10px;">
+</div>
+
+**Deer**
+<div style="display: flex;">
+  <img src="misc/conditional_samples/deer/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00008.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/deer/00009.png" style="margin-right: 10px;">
+</div>
+
+**Automobile**
+<div style="display: flex;">
+  <img src="misc/conditional_samples/automobile/00000.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00001.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00002.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00003.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00004.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00005.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00006.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00007.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00008.png" style="margin-right: 10px;">
+  <img src="misc/conditional_samples/automobile/00009.png" style="margin-right: 10px;">
+</div>
+
+Results on the 2D Checkerboard dataset:
 ![checkerboard_samples](misc/Fig4_sample_paths_checkerboard.png)
