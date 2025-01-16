@@ -9,7 +9,7 @@ Results on CIFAR10 (60M parameters trained on 400 epochs, FID score: ~107):
 
 Some more samples (unconditional):
 
-![cifar10_samples](misc/uncond_samples.png.png)
+![cifar10_samples](misc/uncond_samples.png)
 
 The generated images are still inconsistent: For example some of the dog have a weird shape, and their eyes aren't symmetric. This partially explains the high FID score, the model could benefit from training a little bit more.
 
